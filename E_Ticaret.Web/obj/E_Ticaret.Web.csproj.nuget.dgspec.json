@@ -1,0 +1,360 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Web\\E_Ticaret.Web.csproj": {}
+  },
+  "projects": {
+    "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Business\\E_Ticaret.Business.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Business\\E_Ticaret.Business.csproj",
+        "projectName": "E_Ticaret.Business",
+        "projectPath": "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Business\\E_Ticaret.Business.csproj",
+        "packagesPath": "C:\\Users\\darknight\\.nuget\\packages\\",
+        "outputPath": "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Business\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\darknight\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
+            "projectReferences": {
+              "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Data\\E_Ticaret.Data.csproj": {
+                "projectPath": "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Data\\E_Ticaret.Data.csproj"
+              },
+              "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Entity\\E_Ticaret.Entity.csproj": {
+                "projectPath": "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Entity\\E_Ticaret.Entity.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.30, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.30, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.30, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.30, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Data\\E_Ticaret.Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Data\\E_Ticaret.Data.csproj",
+        "projectName": "E_Ticaret.Data",
+        "projectPath": "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Data\\E_Ticaret.Data.csproj",
+        "packagesPath": "C:\\Users\\darknight\\.nuget\\packages\\",
+        "outputPath": "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Data\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\darknight\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
+            "projectReferences": {
+              "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Entity\\E_Ticaret.Entity.csproj": {
+                "projectPath": "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Entity\\E_Ticaret.Entity.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.30, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.30, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.30, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.30, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Entity\\E_Ticaret.Entity.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Entity\\E_Ticaret.Entity.csproj",
+        "projectName": "E_Ticaret.Entity",
+        "projectPath": "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Entity\\E_Ticaret.Entity.csproj",
+        "packagesPath": "C:\\Users\\darknight\\.nuget\\packages\\",
+        "outputPath": "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Entity\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\darknight\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.30, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.30, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.30, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.30, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Web\\E_Ticaret.Web.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Web\\E_Ticaret.Web.csproj",
+        "projectName": "E_Ticaret.Web",
+        "projectPath": "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Web\\E_Ticaret.Web.csproj",
+        "packagesPath": "C:\\Users\\darknight\\.nuget\\packages\\",
+        "outputPath": "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Web\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\darknight\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
+            "projectReferences": {
+              "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Business\\E_Ticaret.Business.csproj": {
+                "projectPath": "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Business\\E_Ticaret.Business.csproj"
+              },
+              "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Data\\E_Ticaret.Data.csproj": {
+                "projectPath": "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Data\\E_Ticaret.Data.csproj"
+              },
+              "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Entity\\E_Ticaret.Entity.csproj": {
+                "projectPath": "D:\\Belgelerim\\yazılım\\Murat Yücedağ Eğitim\\projects\\ek projeler\\E_Ticaret\\E_Ticaret.Entity\\E_Ticaret.Entity.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.30, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.30, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.30, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.30, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[3.1.5, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.401\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

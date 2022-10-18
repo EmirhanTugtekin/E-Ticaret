@@ -1,0 +1,69 @@
+﻿using E_Ticaret.Business.Abstract;
+using E_Ticaret.Data.Abstract;
+using E_Ticaret.Entity;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace E_Ticaret.Business.Concrete
+{
+    public class ProductManager:IProductService
+    {
+        private IProductRepository _productRepository;
+        public ProductManager(IProductRepository productRepository)
+        {
+            _productRepository = productRepository;
+        }
+        public void Create(Product entity)
+        {
+            // iş kuralları uygula
+            _productRepository.Create(entity);
+        }
+
+        public void Delete(Product entity)
+        {
+            // iş kuralları
+            _productRepository.Delete(entity);
+        }
+
+        public List<Product> GetAll()
+        {
+            return _productRepository.GetAll();
+        }
+
+        public Product GetById(int id)
+        {
+            return _productRepository.GetById(id);
+        }
+
+        public List<Product> GetProductsByCategory(string name,int page,int pageSize)
+        {
+            return _productRepository.GetProductsByCategory(name,page,pageSize);
+        }
+
+        public Product GetProductDetails(string url)
+        {
+            return _productRepository.GetProductDetails(url);
+        }
+
+        public void Update(Product entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public int GetCountByCategory(string category)
+        {
+            return _productRepository.GetCountByCategory(category);
+        }
+
+        public List<Product> GetHomePageProducts()
+        {
+            return _productRepository.GetHomePageProducts();
+        }
+
+        public List<Product> GetSearchResult(string searchString)
+        {
+            return _productRepository.GetSearchResult(searchString);
+        }
+    }
+}
