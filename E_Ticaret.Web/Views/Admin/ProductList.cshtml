@@ -11,26 +11,59 @@
                     <td style="width: 100px;">Image</td>
                     <td>Name</td>
                     <td style="width: 20px;">Price</td>
-                    <td style="width: 150px;"></td>
+                    <td style="width: 20px;">Ana Sayfa</td>
+                    <td style="width: 20px;">Onaylı mı?</td>
+                    <td style="width: 150px;">Güncelle</td>
+                    <td style="width: 150px;">Sil</td>
                 </tr>
             </thead>
             <tbody>
                 @if(Model.Products.Count>0)
                 {
                        @foreach (var item in Model.Products)
-                        {
+                       {
                             <tr>
                                 <td>@item.ProductId</td>
                                 <td><img src="~/img/@item.ImageUrl" width="80"></td>
                                 <td>@item.Name</td>
                                 <td>@item.Price</td>
                                 <td>
-                                    <a href="/admin/products/@item.ProductId" class="btn btn-primary btn-sm mr-2">Edit</a>
-                                    <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                                    @if(item.IsHome)
+                                    {
+                                        <i class="fas fa-check-circle"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-times-circle"></i>
+                                    }
+
                                 </td>
-                        </tr>
-                        }
-                }else{
+                                <td>
+                                    @if (item.IsApproved)
+                                    {
+                                        <i class="fas fa-check-circle"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-times-circle"></i>
+                                    }
+                                </td>
+                                <td>
+                                    @*<a href="/admin/products/@item.ProductId" class="btn btn-primary btn-sm mr-2">Edit</a>*@
+                                    <a href="/admin/edit/@item.ProductId" class="btn btn-primary btn-sm mr-2">Edit</a>
+                                    <td><a href="/admin/DeleteProduct/@item.ProductId" class="btn btn-outline-danger">Sil</a></td>
+
+                                    @*Silme işlemi şu şekilde de yapılabilir
+                                    <form action="/admin/deleteproduct" method="POST" style="display: inline;">
+                                    <input type="hidden" name="productId" value="@item.ProductId">
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>*@
+                                </td>
+                            </tr>
+                       }
+                }
+                else
+                {
                     <div class="alert alert-warning">
                         <h3>No Products</h3>
                     </div>

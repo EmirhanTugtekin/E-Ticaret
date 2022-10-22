@@ -48,7 +48,7 @@ namespace E_Ticaret.Business.Concrete
 
         public void Update(Product entity)
         {
-            throw new System.NotImplementedException();
+            _productRepository.Update(entity);
         }
 
         public int GetCountByCategory(string category)
