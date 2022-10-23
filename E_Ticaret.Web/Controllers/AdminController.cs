@@ -3,16 +3,49 @@ using E_Ticaret.Entity;
 using E_Ticaret.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Linq;
 
 namespace E_Ticaret.Web.Controllers
 {
     public class AdminController : Controller
     {
         private IProductService _productService;
+        private ICategoryService _categoryService;
 
-        public AdminController(IProductService productService)
+        public AdminController(IProductService productService, ICategoryService categoryService)
         {
             _productService = productService;
+            _categoryService = categoryService;
+        }
+
+        public string urlChanger(string valueToChange)
+        {
+            /*
+           if(valueToChange.Contains(" ")|| valueToChange.Contains("ı") || valueToChange.Contains("ü") || valueToChange.Contains("ö")|| valueToChange.Contains("ç") || valueToChange.Contains("ş") || valueToChange.Contains("İ") || valueToChange.Contains("ş") ||)
+           {
+               for (int i = 0; i < valueToChange.Length; i++)
+               {
+                   if (valueToChange[i] == " ")
+               }
+           }*/
+
+            if (new[] { " ", "ç", "Ç", "ğ", "Ğ", "İ", "ı", "Ö", "ö", "Ş", "ş", "ü", "Ü" }.Any(c => valueToChange.Contains(c)))
+            {
+                valueToChange = valueToChange.Replace(" ", "-");
+                valueToChange = valueToChange.Replace("ç", "c");
+                valueToChange = valueToChange.Replace("Ç", "C");
+                valueToChange = valueToChange.Replace("ğ", "g");
+                valueToChange = valueToChange.Replace("Ğ", "G");
+                valueToChange = valueToChange.Replace("İ", "I");
+                valueToChange = valueToChange.Replace("ı", "i");
+                valueToChange = valueToChange.Replace("Ö", "O");
+                valueToChange = valueToChange.Replace("ö", "o");
+                valueToChange = valueToChange.Replace("Ş", "S");
+                valueToChange = valueToChange.Replace("ş", "ş");
+                valueToChange = valueToChange.Replace("Ü", "U");
+                valueToChange = valueToChange.Replace("ü", "u");
+            }
+            return valueToChange;
         }
 
         public IActionResult ProductList()
@@ -30,6 +63,8 @@ namespace E_Ticaret.Web.Controllers
         [HttpPost]
         public IActionResult CreateProduct(ProductModel productModel)
         {
+            //productModel.Url = urlChanger(productModel.Name);
+
             var entity = new Product()
             {
                 Name = productModel.Name,
@@ -83,7 +118,9 @@ namespace E_Ticaret.Web.Controllers
         }
         [HttpPost]
         public IActionResult Edit(ProductModel productModel)
-        {
+        { 
+            productModel.Url = urlChanger(productModel.Name);
+
             var entity = _productService.GetById(productModel.ProductId);
 
             if (entity == null)
@@ -141,6 +178,119 @@ namespace E_Ticaret.Web.Controllers
             TempData["message"] = JsonConvert.SerializeObject(msg);
 
             return RedirectToAction("ProductList");
+        }
+
+        //--------------------------------------------------------
+
+        public IActionResult CategoryList()
+        {
+            return View(new CategoryListViewModel()
+            {
+                Categories = _categoryService.GetAll()
+            });
+        }
+        [HttpGet]
+        public IActionResult CreateCategory()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreateCategory(CategoryModel categoryModel)
+        {
+
+            /*categoryModel.Url = categoryModel.Name;
+
+            //urlChanger(categoryModel.Url);
+            categoryModel.Url=urlChanger(categoryModel.Url);*/
+
+            categoryModel.Url = urlChanger(categoryModel.Name);
+
+            var entity = new Category()
+            {
+                CategoryId = categoryModel.CategoryId,
+                Name = categoryModel.Name,
+                Url = categoryModel.Url
+            };
+
+            _categoryService.Create(entity);
+
+            var msg = new AlertMessage()
+            {
+                Message = $"{entity.Name} isimli kategori eklendi.",
+                AlertType = "success"
+            };
+
+            TempData["message"] = JsonConvert.SerializeObject(msg);
+
+            return RedirectToAction("CategoryList");
+        }
+        [HttpGet]
+        public IActionResult EditCategory(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var entity = _categoryService.GetById((int)id);
+
+            if (entity == null)
+                return NotFound();
+
+            var categoryModel = new CategoryModel()
+            {
+                CategoryId = entity.CategoryId,
+                Name = entity.Name,
+                Url = entity.Url
+            };
+
+            return View(categoryModel);
+        }
+        [HttpPost]
+        public IActionResult EditCategory(CategoryModel categoryModel)
+        {
+            categoryModel.Url = urlChanger(categoryModel.Name);
+
+            var entity = _categoryService.GetById(categoryModel.CategoryId);
+
+            if (entity == null)
+                return NotFound();
+
+            entity.CategoryId = categoryModel.CategoryId;
+            entity.Name = categoryModel.Name;
+            entity.Url = categoryModel.Url;
+
+            _categoryService.Update(entity);
+
+            var msg = new AlertMessage()
+            {
+                Message = $"{entity.Name} isimli kategori güncellendi.",
+                AlertType = "success"
+            };
+
+            TempData["message"] = JsonConvert.SerializeObject(msg);
+
+            return RedirectToAction("CategoryList");
+        }
+        public IActionResult DeleteCategory(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var entity=_categoryService.GetById((int)id);
+
+            if (entity == null)
+                return NotFound();
+
+            _categoryService.Delete(entity);
+
+            var msg = new AlertMessage()
+            {
+                Message = $"{entity.Name} isimli kategori silindi.",
+                AlertType = "warning"
+            };
+
+            TempData["message"] = JsonConvert.SerializeObject(msg);
+
+            return RedirectToAction("CategoryList");
         }
     }
 }

@@ -65,6 +65,13 @@ namespace E_Ticaret.Web
             {
                 //Admin/ProductList yerine admin/products olur
                 endpoints.MapControllerRoute(
+                    name: "adminEditCategory",
+                    pattern: "admin/categories/{id?}",
+                    defaults: new { controller = "Admin", action = "EditCategory" }
+                );
+
+                //Admin/ProductList yerine admin/products olur
+                endpoints.MapControllerRoute(
                     name: "adminproductlist",
                     pattern: "admin/products",
                     defaults: new { controller = "Admin", action = "ProductList" }
