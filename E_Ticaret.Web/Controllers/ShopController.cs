@@ -33,14 +33,14 @@ namespace E_Ticaret.Web.Controllers
 
             return View(productViewModel);
         }
-        public IActionResult Details(string productName)
+        public IActionResult Details(string url)
         {
-            if (productName == null)
+            if (url == null)
             {
                 return NotFound();
             }
 
-            Product product = _productService.GetProductDetails(productName);
+            Product product = _productService.GetProductDetails(url);
 
             if (product == null)
             {
