@@ -38,7 +38,6 @@ namespace E_Ticaret.Data.Concrete.EFCore
             }
         }
 
-
         public Product GetProductDetails(string url)
         {
             using (var context = new EFCoreContext())
@@ -89,6 +88,15 @@ namespace E_Ticaret.Data.Concrete.EFCore
             {
                 return context.Products.Where(x => x.IsApproved && x.IsHome).ToList();
             }
+        }
+
+        public Product GetByIdWithCategories(int id)
+        {
+            using(var context=new EFCoreContext())
+            {
+                return context.Products.Where(x => x.ProductId == id).Include(x => x.ProductCategories).ThenInclude(x => x.Category).FirstOrDefault();
+            }
+            
         }
     }
 }

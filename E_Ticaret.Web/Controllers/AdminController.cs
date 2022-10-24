@@ -18,7 +18,7 @@ namespace E_Ticaret.Web.Controllers
             _categoryService = categoryService;
         }
 
-        public string urlChanger(string valueToChange)
+        public string urlChanger(string valueToChange)//bu metod türkçe karakterleri ve boşlukları kaldırır
         {
             /*
            if(valueToChange.Contains(" ")|| valueToChange.Contains("ı") || valueToChange.Contains("ü") || valueToChange.Contains("ö")|| valueToChange.Contains("ç") || valueToChange.Contains("ş") || valueToChange.Contains("İ") || valueToChange.Contains("ş") ||)
@@ -99,7 +99,7 @@ namespace E_Ticaret.Web.Controllers
             if (id == null)
                 return NotFound();
 
-            var entity = _productService.GetById((int)id);
+            var entity = _productService.GetByIdWithCategories((int)id);
 
             if (entity == null)
                 return NotFound();
@@ -110,9 +110,12 @@ namespace E_Ticaret.Web.Controllers
                 Name = entity.Name,
                 Url = entity.Url,
                 Price = entity.Price,
-                ImageUrl=entity.ImageUrl,
-                Description = entity.Description
+                ImageUrl = entity.ImageUrl,
+                Description = entity.Description,
+                SelectedCategories = entity.ProductCategories.Select(x => x.Category).ToList()   
             };
+
+            ViewBag.AllCategories = _categoryService.GetAll();
 
             return View(productModel);
         }
@@ -163,12 +166,6 @@ namespace E_Ticaret.Web.Controllers
 
             _productService.Delete(entity);
 
-            //TempData["message"] = $"{entity.Name} isimli ürün başarıyla silindi";
-            /*TempData["message"] = new AlertMessage()
-            {
-                Message = $"{entity.Name} isimli ürün başarıyla silindi",
-                AlertType = "danger"
-            };*/
             var msg = new AlertMessage()
             {
                 Message = $"{entity.Name} isimli ürün silindi.",
@@ -197,12 +194,6 @@ namespace E_Ticaret.Web.Controllers
         [HttpPost]
         public IActionResult CreateCategory(CategoryModel categoryModel)
         {
-
-            /*categoryModel.Url = categoryModel.Name;
-
-            //urlChanger(categoryModel.Url);
-            categoryModel.Url=urlChanger(categoryModel.Url);*/
-
             categoryModel.Url = urlChanger(categoryModel.Name);
 
             var entity = new Category()
@@ -230,7 +221,7 @@ namespace E_Ticaret.Web.Controllers
             if (id == null)
                 return NotFound();
 
-            var entity = _categoryService.GetById((int)id);
+            var entity = _categoryService.GetByIdWithProducts((int)id);
 
             if (entity == null)
                 return NotFound();
@@ -239,7 +230,8 @@ namespace E_Ticaret.Web.Controllers
             {
                 CategoryId = entity.CategoryId,
                 Name = entity.Name,
-                Url = entity.Url
+                Url = entity.Url,
+                Products = entity.ProductCategories.Select(x => x.Product).ToList()
             };
 
             return View(categoryModel);
@@ -291,6 +283,12 @@ namespace E_Ticaret.Web.Controllers
             TempData["message"] = JsonConvert.SerializeObject(msg);
 
             return RedirectToAction("CategoryList");
+        }
+        [HttpPost]
+        public IActionResult DeleteFromCategory(int productId,int CategoryId)
+        {
+            _categoryService.DeleteFromCategory(productId,CategoryId);
+            return Redirect("/admin/EditCategory/" + CategoryId);
         }
     }
 }

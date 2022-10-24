@@ -7,6 +7,7 @@ namespace E_Ticaret.Data.Abstract
 {
     public interface ICategoryRepository:IRepository<Category>
     {
-        List<Product> GetPopularCategories();
+        void DeleteFromCategory(int productId, int categoryId);
+        Category GetByIdWithProducts(int id);
     }
 }

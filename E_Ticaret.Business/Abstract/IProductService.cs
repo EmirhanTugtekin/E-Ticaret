@@ -7,6 +7,7 @@ namespace E_Ticaret.Business.Abstract
 {
     public interface IProductService
     {
+        Product GetByIdWithCategories(int id);
         List<Product> GetSearchResult(string searchString);
         List<Product> GetHomePageProducts();
         int GetCountByCategory(string category);

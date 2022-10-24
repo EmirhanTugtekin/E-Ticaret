@@ -7,6 +7,7 @@ namespace E_Ticaret.Data.Abstract
 {
     public interface IProductRepository:IRepository<Product>
     {
+        Product GetByIdWithCategories(int id);
         List<Product> GetHomePageProducts();
         int GetCountByCategory(string category);
         Product GetProductDetails(string url);

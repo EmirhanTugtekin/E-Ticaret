@@ -18,7 +18,7 @@ namespace E_Ticaret.Web.Controllers
         //localhost/products/telefon?page=1
         public IActionResult List(string category,int page=1)//int? page yaparsak hata alırız, int page=1 demek hiçbir page değeri girilmezse (localhost/products/ gibi) o zaman page'e varsayılan olarak 1 değeri atanır
         {
-            const int pageSize = 10;//her sayfada 10 ürün gösterilir
+            const int pageSize = 2;//her sayfada 2 ürün gösterilir
             var productViewModel = new ProductListViewModel()
             {
                 PageInfo=new PageInfo()
