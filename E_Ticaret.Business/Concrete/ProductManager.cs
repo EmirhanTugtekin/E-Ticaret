@@ -1,8 +1,10 @@
 ﻿using E_Ticaret.Business.Abstract;
 using E_Ticaret.Data.Abstract;
+using E_Ticaret.Data.Concrete.EFCore;
 using E_Ticaret.Entity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace E_Ticaret.Business.Concrete
@@ -69,6 +71,11 @@ namespace E_Ticaret.Business.Concrete
         public Product GetByIdWithCategories(int id)
         {
             return _productRepository.GetByIdWithCategories(id);
+        }
+
+        public void Update(Product entity, int[] categoryIds)
+        {
+            _productRepository.Update(entity, categoryIds);
         }
     }
 }

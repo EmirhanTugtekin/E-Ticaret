@@ -1,23 +1,27 @@
 ﻿using E_Ticaret.Business.Abstract;
 using E_Ticaret.Entity;
 using E_Ticaret.Web.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.IO;
+using System;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace E_Ticaret.Web.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         private IProductService _productService;
         private ICategoryService _categoryService;
-
         public AdminController(IProductService productService, ICategoryService categoryService)
         {
             _productService = productService;
             _categoryService = categoryService;
         }
-
         public string urlChanger(string valueToChange)//bu metod türkçe karakterleri ve boşlukları kaldırır
         {
             /*
@@ -41,13 +45,12 @@ namespace E_Ticaret.Web.Controllers
                 valueToChange = valueToChange.Replace("Ö", "O");
                 valueToChange = valueToChange.Replace("ö", "o");
                 valueToChange = valueToChange.Replace("Ş", "S");
-                valueToChange = valueToChange.Replace("ş", "ş");
+                valueToChange = valueToChange.Replace("ş", "s");
                 valueToChange = valueToChange.Replace("Ü", "U");
                 valueToChange = valueToChange.Replace("ü", "u");
             }
             return valueToChange;
         }
-
         public IActionResult ProductList()
         {
             return View(new ProductListViewModel
@@ -63,37 +66,41 @@ namespace E_Ticaret.Web.Controllers
         [HttpPost]
         public IActionResult CreateProduct(ProductModel productModel)
         {
-            //productModel.Url = urlChanger(productModel.Name);
-
-            var entity = new Product()
+            if (ModelState.IsValid)
             {
-                Name = productModel.Name,
-                Url = productModel.Url,
-                Price = productModel.Price, 
-                Description = productModel.Description,
-                ImageUrl=productModel.ImageUrl
-            };
+                if(productModel.Name!=null)
+                    productModel.Url = urlChanger(productModel.Name);
 
-            _productService.Create(entity);
+                var entity = new Product()
+                {
+                    Name = productModel.Name,
+                    Url = productModel.Url,
+                    Price = productModel.Price,
+                    Description = productModel.Description,
+                    ImageUrl = productModel.ImageUrl
+                };
 
-            //TempData["message"] = $"{entity.Name} isimli ürün başarıyla eklendi";
-            /*TempData["message"] = new AlertMessage()
-            {
-                Message = $"{entity.Name} isimli ürün başarıyla eklendi",
-                AlertType = "success"
-            };*/
+                _productService.Create(entity);
 
-            var msg = new AlertMessage()
-            {
-                Message = $"{entity.Name} isimli ürün eklendi.",
-                AlertType = "success"
-            };
+                //TempData["message"] = $"{entity.Name} isimli ürün başarıyla eklendi";
+                /*TempData["message"] = new AlertMessage()
+                {
+                    Message = $"{entity.Name} isimli ürün başarıyla eklendi",
+                    AlertType = "success"
+                };*/
 
-            TempData["message"] = JsonConvert.SerializeObject(msg);
+                var msg = new AlertMessage()
+                {
+                    Message = $"{entity.Name} isimli ürün eklendi.",
+                    AlertType = "success"
+                };
 
-            return RedirectToAction("ProductList");
+                TempData["message"] = JsonConvert.SerializeObject(msg);
+
+                return RedirectToAction("ProductList");
+            }
+            return View(productModel);
         }
-        //httpget yazmaya gerek yok aslında. Ztn varsayılan olarak httpget
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -112,47 +119,70 @@ namespace E_Ticaret.Web.Controllers
                 Price = entity.Price,
                 ImageUrl = entity.ImageUrl,
                 Description = entity.Description,
+                IsHome = entity.IsHome,
+                IsApproved = entity.IsApproved,
                 SelectedCategories = entity.ProductCategories.Select(x => x.Category).ToList()   
             };
 
-            ViewBag.AllCategories = _categoryService.GetAll();
+            ViewBag.Categories = _categoryService.GetAll();
 
             return View(productModel);
         }
         [HttpPost]
-        public IActionResult Edit(ProductModel productModel)
-        { 
-            productModel.Url = urlChanger(productModel.Name);
-
-            var entity = _productService.GetById(productModel.ProductId);
-
-            if (entity == null)
-                return NotFound();
-
-            entity.ProductId = productModel.ProductId;
-            entity.Name = productModel.Name;
-            entity.Url = productModel.Url;
-            entity.Price = productModel.Price;
-            entity.ImageUrl = productModel.ImageUrl;
-            entity.Description = productModel.Description;
-
-            _productService.Update(entity);
-
-            //TempData["message"] = $"{entity.Name} isimli ürün başarıyla güncellendi";
-            /*TempData["message"] = new AlertMessage()
+        public async Task<IActionResult> Edit(ProductModel productModel, int[] categoryIds, IFormFile file)
+        {
+            
+            if (ModelState.IsValid)
             {
-                Message = $"{entity.Name} isimli ürün başarıyla güncellendi",
-                AlertType = "success"
-            };*/
-            var msg = new AlertMessage()
-            {
-                Message = $"{entity.Name} isimli ürün güncellendi.",
-                AlertType = "success"
-            };
+                productModel.Url = urlChanger(productModel.Name);
 
-            TempData["message"] = JsonConvert.SerializeObject(msg);
+                var entity = _productService.GetById(productModel.ProductId);           
 
-            return RedirectToAction("ProductList");
+                if (entity == null)
+                    return NotFound();
+
+                //entity.ProductId = productModel.ProductId;
+                entity.Name = productModel.Name;
+                entity.Url = productModel.Url;
+                entity.Price = productModel.Price;
+                entity.ImageUrl = productModel.ImageUrl;
+                entity.Description = productModel.Description;
+                entity.IsHome = productModel.IsHome;
+                entity.IsApproved = productModel.IsApproved;
+
+                if (file != null)
+                {
+                    var extention = Path.GetExtension(file.FileName);//uzantısını aldım (.jpg .png vs.)
+                    var randomName = string.Format($"{Guid.NewGuid()}{extention}");//Guid.NewGuid() ile rastgele bir isim üretip extension ile uzantısını yazdım
+                    entity.ImageUrl = randomName;
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", randomName);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                }
+
+                _productService.Update(entity,categoryIds);
+
+                //TempData["message"] = $"{entity.Name} isimli ürün başarıyla güncellendi";
+                /*TempData["message"] = new AlertMessage()
+                {
+                    Message = $"{entity.Name} isimli ürün başarıyla güncellendi",
+                    AlertType = "success"
+                };*/
+                var msg = new AlertMessage()
+                {
+                    Message = $"{entity.Name} isimli ürün güncellendi.",
+                    AlertType = "success"
+                };
+
+                TempData["message"] = JsonConvert.SerializeObject(msg);
+                return RedirectToAction("ProductList");
+            }
+            
+            ViewBag.Categories = _categoryService.GetAll();
+            return View(productModel);
         }
         public IActionResult DeleteProduct(int? id)
         {
@@ -176,9 +206,7 @@ namespace E_Ticaret.Web.Controllers
 
             return RedirectToAction("ProductList");
         }
-
-        //--------------------------------------------------------
-
+        //--------------------Category işlemleri------------------------------------
         public IActionResult CategoryList()
         {
             return View(new CategoryListViewModel()
@@ -194,26 +222,31 @@ namespace E_Ticaret.Web.Controllers
         [HttpPost]
         public IActionResult CreateCategory(CategoryModel categoryModel)
         {
-            categoryModel.Url = urlChanger(categoryModel.Name);
-
-            var entity = new Category()
+            if (ModelState.IsValid)
             {
-                CategoryId = categoryModel.CategoryId,
-                Name = categoryModel.Name,
-                Url = categoryModel.Url
-            };
+                if(categoryModel.Name!=null)
+                    categoryModel.Url = urlChanger(categoryModel.Name);
 
-            _categoryService.Create(entity);
+                var entity = new Category()
+                {
+                    CategoryId = categoryModel.CategoryId,
+                    Name = categoryModel.Name,
+                    Url = categoryModel.Url
+                };
 
-            var msg = new AlertMessage()
-            {
-                Message = $"{entity.Name} isimli kategori eklendi.",
-                AlertType = "success"
-            };
+                _categoryService.Create(entity);
 
-            TempData["message"] = JsonConvert.SerializeObject(msg);
+                var msg = new AlertMessage()
+                {
+                    Message = $"{entity.Name} isimli kategori eklendi.",
+                    AlertType = "success"
+                };
 
-            return RedirectToAction("CategoryList");
+                TempData["message"] = JsonConvert.SerializeObject(msg);
+
+                return RedirectToAction("CategoryList");
+            }
+            return View(categoryModel);
         }
         [HttpGet]
         public IActionResult EditCategory(int? id)
@@ -239,28 +272,33 @@ namespace E_Ticaret.Web.Controllers
         [HttpPost]
         public IActionResult EditCategory(CategoryModel categoryModel)
         {
-            categoryModel.Url = urlChanger(categoryModel.Name);
-
-            var entity = _categoryService.GetById(categoryModel.CategoryId);
-
-            if (entity == null)
-                return NotFound();
-
-            entity.CategoryId = categoryModel.CategoryId;
-            entity.Name = categoryModel.Name;
-            entity.Url = categoryModel.Url;
-
-            _categoryService.Update(entity);
-
-            var msg = new AlertMessage()
+            if (ModelState.IsValid)
             {
-                Message = $"{entity.Name} isimli kategori güncellendi.",
-                AlertType = "success"
-            };
+                categoryModel.Url = urlChanger(categoryModel.Name);
 
-            TempData["message"] = JsonConvert.SerializeObject(msg);
+                var entity = _categoryService.GetById(categoryModel.CategoryId);
 
-            return RedirectToAction("CategoryList");
+                if (entity == null)
+                    return NotFound();
+
+                entity.CategoryId = categoryModel.CategoryId;
+                entity.Name = categoryModel.Name;
+                entity.Url = categoryModel.Url;
+
+                _categoryService.Update(entity);
+
+                var msg = new AlertMessage()
+                {
+                    Message = $"{entity.Name} isimli kategori güncellendi.",
+                    AlertType = "success"
+                };
+
+                TempData["message"] = JsonConvert.SerializeObject(msg);
+
+                return RedirectToAction("CategoryList");
+            }
+            return View(categoryModel);
+            
         }
         public IActionResult DeleteCategory(int? id)
         {

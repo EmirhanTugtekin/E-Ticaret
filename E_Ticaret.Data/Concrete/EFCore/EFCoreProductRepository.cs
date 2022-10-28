@@ -98,5 +98,34 @@ namespace E_Ticaret.Data.Concrete.EFCore
             }
             
         }
+
+        public void Update(Product entity, int[] categoryIds)
+        {
+            using (var context = new EFCoreContext())
+            {
+                var product=context.Products
+                                            .Include(x => x.ProductCategories)
+                                            .FirstOrDefault(x => x.ProductId == entity.ProductId);
+
+                if (product != null)
+                {
+                    product.Name = entity.Name;
+                    product.Price = entity.Price;
+                    product.Description = entity.Description;
+                    product.Url = entity.Url;
+                    product.ImageUrl = entity.ImageUrl;
+                    product.IsHome = entity.IsHome;
+                    product.IsApproved = entity.IsApproved;
+
+                    product.ProductCategories = categoryIds.Select(catid => new ProductCategory()
+                    {
+                        ProductId = entity.ProductId,
+                        CategoryId = catid
+                    }).ToList();
+
+                    context.SaveChanges();
+                }
+            }
+        }
     }
 }

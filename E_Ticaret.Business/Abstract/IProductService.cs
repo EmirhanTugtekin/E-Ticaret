@@ -17,6 +17,7 @@ namespace E_Ticaret.Business.Abstract
         List<Product> GetAll();
         void Create(Product entity);
         void Update(Product entity);
+        void Update(Product entity, int[] categoryIds);
         void Delete(Product entity);
         
     }

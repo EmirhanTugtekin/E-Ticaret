@@ -13,5 +13,6 @@ namespace E_Ticaret.Data.Abstract
         Product GetProductDetails(string url);
         List<Product> GetProductsByCategory(string name,int page,int pageSize);
         List<Product> GetSearchResult(string searchString);
+        void Update(Product entity, int[] categoryIds);
     }
 }
