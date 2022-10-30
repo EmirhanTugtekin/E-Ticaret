@@ -22,8 +22,8 @@ namespace E_Ticaret.Web.Controllers
     {
         private IProductService _productService;
         private ICategoryService _categoryService;
-        private RoleManager<IdentityRole> _roleManager;
-        private UserManager<AppUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<AppUser> _userManager;
 
         public AdminController(IProductService productService, ICategoryService categoryService, RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager)
         {
@@ -101,21 +101,22 @@ namespace E_Ticaret.Web.Controllers
             var members = new List<AppUser>();
             var nonMembers = new List<AppUser>();
 
-            foreach (var item in _userManager.Users)
+            foreach (var user in _userManager.Users.ToList())
             {
                 #region basit yöntem
-                //if (await _userManager.IsInRoleAsync(item, role.Name))
+                //if (await _userManager.IsInRoleAsync(user, role.Name))
                 //{
-                //    members.Add(item);
+                //    members.Add(user);
                 //}
                 //else
                 //{
-                //    nonMembers.Add(item);
+                //    nonMembers.Add(user);
                 //}
                 #endregion
 
                 #region daha profesyonel yöntem
-                var list = await _userManager.IsInRoleAsync(item, role.Name) ? members : nonMembers;/*list, değer ve referans tiplerden referans tiptir. Burada eğer true gelirse, item members list'ine değilse nonMembers list'ine atılır*/
+                var list = await _userManager.IsInRoleAsync(user, role.Name) ? members : nonMembers;
+                list.Add(user);
                 #endregion
             }
             var model = new RoleDetails()
@@ -126,18 +127,46 @@ namespace E_Ticaret.Web.Controllers
             };
             return View(model);
         }
+        /*list, değer ve referans tiplerden referans tiptir. Burada eğer true gelirse, item members list'ine değilse nonMembers list'ine atılır*/
         [HttpPost]
-        public async Task<IActionResult> EditRole(RoleEditModel model)
+        public async Task<IActionResult> RoleEdit(RoleEditModel model)
         {
             if (ModelState.IsValid)
             {
-                foreach (var item in model.IdsToAdd)
+                foreach (var userId in model.IdsToAdd ?? new string[] { })
                 {
-                    var user = await _userManager.FindByIdAsync(item);
+                    var user = await _userManager.FindByIdAsync(userId);
+                    if (user != null)
+                    {
+                        var result = await _userManager.AddToRoleAsync(user, model.RoleName);
+                        if (!result.Succeeded)
+                        {
+                            foreach (var error in result.Errors)
+                            {
+                                ModelState.AddModelError("", error.Description);
+                            }
+                        }
+                    }
+                }
+
+                foreach (var userId in model.IdsToDelete ?? new string[] { })
+                {
+                    var user = await _userManager.FindByIdAsync(userId);
+                    if (user != null)
+                    {
+                        var result = await _userManager.RemoveFromRoleAsync(user, model.RoleName);
+                        if (!result.Succeeded)
+                        {
+                            foreach (var error in result.Errors)
+                            {
+                                ModelState.AddModelError("", error.Description);
+                            }
+                        }
+                    }
                 }
             }
+            return Redirect("/Admin/EditRole/" + model.RoleId);
         }
-
         #endregion
 
 

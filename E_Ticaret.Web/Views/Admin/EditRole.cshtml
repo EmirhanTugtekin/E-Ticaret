@@ -1,11 +1,11 @@
 ﻿@model RoleDetails
 
-<h1 class="h3">Edit Role</h1>
+<h1 class="h3">Rol Düzenleme</h1>
 <hr>
 <div class="row">
     <div class="col-md-12">
 
-        <form asp-controller="Admin" asp-action="RoleEdit">
+        <form asp-controller="Admin" asp-action="EditRole">
             <input type="hidden" name="RoleId" value="@Model.Role.Id">
             <input type="hidden" name="RoleName" value="@Model.Role.Name">
 
