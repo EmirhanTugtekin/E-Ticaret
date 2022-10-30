@@ -6,7 +6,6 @@ namespace AspNetCore
 {
     #line hidden
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
@@ -20,6 +19,34 @@ using E_Ticaret.Entity;
 #line hidden
 #nullable disable
 #nullable restore
+#line 4 "D:\Belgelerim\yazılım\Murat Yücedağ Eğitim\projects\ek projeler\E_Ticaret\E_Ticaret.Web\Views\_ViewImports.cshtml"
+using Newtonsoft.Json;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 5 "D:\Belgelerim\yazılım\Murat Yücedağ Eğitim\projects\ek projeler\E_Ticaret\E_Ticaret.Web\Views\_ViewImports.cshtml"
+using E_Ticaret.Web.Extensions;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 6 "D:\Belgelerim\yazılım\Murat Yücedağ Eğitim\projects\ek projeler\E_Ticaret\E_Ticaret.Web\Views\_ViewImports.cshtml"
+using System.Collections.Generic;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 7 "D:\Belgelerim\yazılım\Murat Yücedağ Eğitim\projects\ek projeler\E_Ticaret\E_Ticaret.Web\Views\_ViewImports.cshtml"
+using Microsoft.AspNetCore.Identity;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
 #line 1 "D:\Belgelerim\yazılım\Murat Yücedağ Eğitim\projects\ek projeler\E_Ticaret\E_Ticaret.Web\Views\Shared\Error.cshtml"
 using E_Ticaret.Web.Models;
 
@@ -27,7 +54,7 @@ using E_Ticaret.Web.Models;
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"db66a180a7717b4acaa29dd7b7952a8e808fe68b", @"/Views/Shared/Error.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"3b7e1f073c3d2706f77c7bdc21e0d588b245274b", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"67867e357ce97ed5ef33748cf301ed253f1b7bbd", @"/Views/_ViewImports.cshtml")]
     #nullable restore
     public class Views_Shared_Error : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<ErrorViewModel>
     #nullable disable

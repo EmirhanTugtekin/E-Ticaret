@@ -16,10 +16,11 @@ namespace E_Ticaret.Business.Concrete
         {
             _productRepository = productRepository;
         }
-        public void Create(Product entity)
+        public bool Create(Product entity)
         {
-            // iş kuralları uygula
             _productRepository.Create(entity);
+            return true;
+            
         }
 
         public void Delete(Product entity)
@@ -73,9 +74,10 @@ namespace E_Ticaret.Business.Concrete
             return _productRepository.GetByIdWithCategories(id);
         }
 
-        public void Update(Product entity, int[] categoryIds)
+        public bool Update(Product entity, int[] categoryIds)
         {
             _productRepository.Update(entity, categoryIds);
+            return true;
         }
     }
 }

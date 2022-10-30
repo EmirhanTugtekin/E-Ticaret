@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace E_Ticaret.Web.Controllers
 {
+    [AutoValidateAntiforgeryToken]
     public class AccountController : Controller
     {
         private UserManager<AppUser> _userManager;
@@ -22,7 +23,7 @@ namespace E_Ticaret.Web.Controllers
         {
             return View(new LoginModel()
             {
-                ReturnUrl= ReturnUrl// ReturnUrl şu işe yarıyor: Bir kişi giriş yapmadan admin-product'a erişmeye çalıştı diyelim. Bu onu Login'e atar ve Login olabilirse onu anasayfaya değil de girmeye çalışıp giremediği sayfaya atmaya yarıyor
+                ReturnUrl= ReturnUrl// ReturnUrl şu işe yarıyor: Bir kişi giriş yapmadan Admin/ProductList'e request attı diyelim. Bu onu Login'e atar ve Login olabilirse onu anasayfaya değil de girmeye çalışıp giremediği sayfaya atar.
             });
         }
         [HttpPost]
@@ -53,6 +54,7 @@ namespace E_Ticaret.Web.Controllers
             return View();
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]//get ile gönderilen CSRF token bilgisi, post ile eşleşmezse cross site attack olduğu anlaşılır ve işlem yapılmaz yani güvenlik sağlanır. Controller başına [AutoValidateAntiforgeryToken] yazarak tüm controller'a bu özellik kazandırılabilir
         public async Task<IActionResult> Register(RegisterModel model)
         {
             if (!ModelState.IsValid)

@@ -178,3 +178,6 @@ D:\Belgelerim\yazılım\Murat Yücedağ Eğitim\projects\ek projeler\E_Ticaret\E
 D:\Belgelerim\yazılım\Murat Yücedağ Eğitim\projects\ek projeler\E_Ticaret\E_Ticaret.Web\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Stores.dll
 D:\Belgelerim\yazılım\Murat Yücedağ Eğitim\projects\ek projeler\E_Ticaret\E_Ticaret.Web\obj\Debug\netcoreapp3.1\Razor\Views\Account\Register.cshtml.g.cs
 D:\Belgelerim\yazılım\Murat Yücedağ Eğitim\projects\ek projeler\E_Ticaret\E_Ticaret.Web\obj\Debug\netcoreapp3.1\Razor\Views\Account\Login.cshtml.g.cs
+D:\Belgelerim\yazılım\Murat Yücedağ Eğitim\projects\ek projeler\E_Ticaret\E_Ticaret.Web\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ResultMessage.cshtml.g.cs
+D:\Belgelerim\yazılım\Murat Yücedağ Eğitim\projects\ek projeler\E_Ticaret\E_Ticaret.Web\obj\Debug\netcoreapp3.1\Razor\Views\Admin\RolesList.cshtml.g.cs
+D:\Belgelerim\yazılım\Murat Yücedağ Eğitim\projects\ek projeler\E_Ticaret\E_Ticaret.Web\obj\Debug\netcoreapp3.1\Razor\Views\Admin\CreateRole.cshtml.g.cs

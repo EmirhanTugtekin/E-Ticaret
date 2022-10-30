@@ -61,7 +61,9 @@ namespace E_Ticaret.Web
                 options.Cookie = new CookieBuilder()
                 {
                     HttpOnly = true,//cookie sadece http request'i ile elde edilebilsin. Mesela bir Javascript uygulamasý cookie'yi elde edemesin
-                    Name=".eTicaret.Security.Cookie" //cookie'nin ismini özelleþtirme
+                    Name=".eTicaret.Security.Cookie", //cookie'nin ismini özelleþtirme
+                    SameSite=SameSiteMode.Strict// A kullanýcýsý giriþ yapýnca client tarafýnda cookie, server tarafýnda session oluþturulur ve bunlar haberleþir. Eðer B kullanýcýsý A kullanýcýsýnýn cookie'sine sahip olsa dahi giriþ yapamasýn istiyorsak bu ayarý yaparýz
+
                 };
             });
 

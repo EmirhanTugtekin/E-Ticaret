@@ -9,19 +9,30 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using E_Ticaret.Web.Extensions;
+using Microsoft.AspNetCore.Identity;
+using E_Ticaret.Web.Identity;
+using System.Collections.Generic;
 
 namespace E_Ticaret.Web.Controllers
 {
+    //[Authorize(Roles ="Admin")]
     [Authorize]
     public class AdminController : Controller
     {
         private IProductService _productService;
         private ICategoryService _categoryService;
-        public AdminController(IProductService productService, ICategoryService categoryService)
+        private RoleManager<IdentityRole> _roleManager;
+        private UserManager<AppUser> _userManager;
+
+        public AdminController(IProductService productService, ICategoryService categoryService, RoleManager<IdentityRole> roleManager, UserManager<AppUser> userManager)
         {
             _productService = productService;
             _categoryService = categoryService;
+            _roleManager = roleManager;
+            _userManager = userManager;
         }
+
         public string urlChanger(string valueToChange)//bu metod türkçe karakterleri ve boşlukları kaldırır
         {
             /*
@@ -51,6 +62,86 @@ namespace E_Ticaret.Web.Controllers
             }
             return valueToChange;
         }
+
+        #region Role Methods
+
+        public IActionResult RolesList()
+        {
+            return View(_roleManager.Roles);
+        }
+        [HttpGet]
+        public IActionResult CreateRole()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> RoleCreate(RoleModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _roleManager.CreateAsync(new IdentityRole(model.Name));
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("RolesList");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+            }
+            return View(model);
+        }
+        [HttpGet]
+        public async Task<IActionResult> EditRole(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+            var members = new List<AppUser>();
+            var nonMembers = new List<AppUser>();
+
+            foreach (var item in _userManager.Users)
+            {
+                #region basit yöntem
+                //if (await _userManager.IsInRoleAsync(item, role.Name))
+                //{
+                //    members.Add(item);
+                //}
+                //else
+                //{
+                //    nonMembers.Add(item);
+                //}
+                #endregion
+
+                #region daha profesyonel yöntem
+                var list = await _userManager.IsInRoleAsync(item, role.Name) ? members : nonMembers;/*list, değer ve referans tiplerden referans tiptir. Burada eğer true gelirse, item members list'ine değilse nonMembers list'ine atılır*/
+                #endregion
+            }
+            var model = new RoleDetails()
+            {
+                Role = role,
+                Members = members,
+                NonMembers = nonMembers
+            };
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditRole(RoleEditModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                foreach (var item in model.IdsToAdd)
+                {
+                    var user = await _userManager.FindByIdAsync(item);
+                }
+            }
+        }
+
+        #endregion
+
+
+        #region Product Methods
         public IActionResult ProductList()
         {
             return View(new ProductListViewModel
@@ -80,24 +171,44 @@ namespace E_Ticaret.Web.Controllers
                     ImageUrl = productModel.ImageUrl
                 };
 
-                _productService.Create(entity);
+                #region AlertMessage işlemlerinin ilk ve ikinci hali 
 
                 //TempData["message"] = $"{entity.Name} isimli ürün başarıyla eklendi";
-                /*TempData["message"] = new AlertMessage()
+
+                //TempData["message"] = new AlertMessage()
+                //{
+                //    Message = $"{entity.Name} isimli ürün başarıyla eklendi",
+                //    AlertType = "success"
+                //};
+
+                //var msg = new AlertMessage()
+                //{
+                //    Message = $"{entity.Name} isimli ürün eklendi.",
+                //    AlertType = "success"
+                //};
+
+                //TempData["message"] = JsonConvert.SerializeObject(msg);
+
+                #endregion
+
+                if (_productService.Create(entity))
                 {
-                    Message = $"{entity.Name} isimli ürün başarıyla eklendi",
-                    AlertType = "success"
-                };*/
-
-                var msg = new AlertMessage()
+                    TempData.Put("message", new AlertMessage()
+                    {
+                        Title = "kayıt eklendi",
+                        Message = "kayıt eklendi",
+                        AlertType = "success"
+                    });
+                    return RedirectToAction("ProductList");
+                }
+                TempData.Put("message", new AlertMessage()
                 {
-                    Message = $"{entity.Name} isimli ürün eklendi.",
-                    AlertType = "success"
-                };
+                    Title = "hata",
+                    Message = "hata",
+                    AlertType = "danger"
+                });
 
-                TempData["message"] = JsonConvert.SerializeObject(msg);
-
-                return RedirectToAction("ProductList");
+                return View(productModel);
             }
             return View(productModel);
         }
@@ -165,19 +276,39 @@ namespace E_Ticaret.Web.Controllers
 
                 _productService.Update(entity,categoryIds);
 
-                //TempData["message"] = $"{entity.Name} isimli ürün başarıyla güncellendi";
-                /*TempData["message"] = new AlertMessage()
-                {
-                    Message = $"{entity.Name} isimli ürün başarıyla güncellendi",
-                    AlertType = "success"
-                };*/
-                var msg = new AlertMessage()
-                {
-                    Message = $"{entity.Name} isimli ürün güncellendi.",
-                    AlertType = "success"
-                };
+                #region AlertMessage işlemleri eski hali
+                ////TempData["message"] = $"{entity.Name} isimli ürün başarıyla güncellendi";
+                ///*TempData["message"] = new AlertMessage()
+                //{
+                //    Message = $"{entity.Name} isimli ürün başarıyla güncellendi",
+                //    AlertType = "success"
+                //};*/
+                //var msg = new AlertMessage()
+                //{
+                //    Message = $"{entity.Name} isimli ürün güncellendi.",
+                //    AlertType = "success"
+                //};
 
-                TempData["message"] = JsonConvert.SerializeObject(msg);
+                //TempData["message"] = JsonConvert.SerializeObject(msg);
+                #endregion
+
+                if (_productService.Update(entity, categoryIds))
+                {
+                    TempData.Put("message", new AlertMessage()
+                    {
+                        Title = "kayıt güncellendi",
+                        Message = "kayıt güncellendi",
+                        AlertType = "success"
+                    });
+                    return RedirectToAction("ProductList");
+                }
+                TempData.Put("message", new AlertMessage()
+                {
+                    Title = "hata",
+                    Message = "hata",
+                    AlertType = "danger"
+                });
+
                 return RedirectToAction("ProductList");
             }
             
@@ -206,7 +337,10 @@ namespace E_Ticaret.Web.Controllers
 
             return RedirectToAction("ProductList");
         }
-        //--------------------Category işlemleri------------------------------------
+
+        #endregion
+
+        #region Category Methods
         public IActionResult CategoryList()
         {
             return View(new CategoryListViewModel()
@@ -236,13 +370,22 @@ namespace E_Ticaret.Web.Controllers
 
                 _categoryService.Create(entity);
 
-                var msg = new AlertMessage()
-                {
-                    Message = $"{entity.Name} isimli kategori eklendi.",
-                    AlertType = "success"
-                };
+                #region AlertMessage işlemleri eski hali
+                //var msg = new AlertMessage()
+                //{
+                //    Message = $"{entity.Name} isimli kategori eklendi.",
+                //    AlertType = "success"
+                //};
 
-                TempData["message"] = JsonConvert.SerializeObject(msg);
+                //TempData["message"] = JsonConvert.SerializeObject(msg);
+                #endregion
+
+                TempData.Put("message", new AlertMessage()
+                {
+                    Title = "kayıt eklendi.",
+                    Message = $"{entity.Name} isimli category eklendi.",
+                    AlertType = "success"
+                });
 
                 return RedirectToAction("CategoryList");
             }
@@ -287,13 +430,22 @@ namespace E_Ticaret.Web.Controllers
 
                 _categoryService.Update(entity);
 
-                var msg = new AlertMessage()
-                {
-                    Message = $"{entity.Name} isimli kategori güncellendi.",
-                    AlertType = "success"
-                };
+                #region AlertMessage işlemleri eski hali
+                //var msg = new AlertMessage()
+                //{
+                //    Message = $"{entity.Name} isimli kategori güncellendi.",
+                //    AlertType = "success"
+                //};
 
-                TempData["message"] = JsonConvert.SerializeObject(msg);
+                //TempData["message"] = JsonConvert.SerializeObject(msg);
+                #endregion
+
+                TempData.Put("message", new AlertMessage()
+                {
+                    Title = "kayıt eklendi.",
+                    Message = $"{entity.Name} isimli category eklendi.",
+                    AlertType = "success"
+                });
 
                 return RedirectToAction("CategoryList");
             }
@@ -328,5 +480,6 @@ namespace E_Ticaret.Web.Controllers
             _categoryService.DeleteFromCategory(productId,CategoryId);
             return Redirect("/admin/EditCategory/" + CategoryId);
         }
+        #endregion
     }
 }
