@@ -1,4 +1,5 @@
-﻿using E_Ticaret.Web.Identity;
+﻿using E_Ticaret.Business.Abstract;
+using E_Ticaret.Web.Identity;
 using E_Ticaret.Web.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +12,13 @@ namespace E_Ticaret.Web.Controllers
     {
         private UserManager<AppUser> _userManager;
         private SignInManager<AppUser> _signInManager;//cookie olaylarını yönetir
+        private ICartService _cartService;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ICartService cartService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _cartService = cartService;
         }
 
         [HttpGet]
@@ -73,6 +76,7 @@ namespace E_Ticaret.Web.Controllers
             if (result.Succeeded)
             {
                 //generate token
+                _cartService.InitializeCart(user.Id);
                 return RedirectToAction("Login");
             }
 
@@ -83,6 +87,10 @@ namespace E_Ticaret.Web.Controllers
         {
             await _signInManager.SignOutAsync();
             return Redirect("~/");
+        }
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }

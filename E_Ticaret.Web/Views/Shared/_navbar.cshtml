@@ -1,30 +1,36 @@
 ﻿<div class="navbar bg-danger navbar-dark navbar-expand-sm">
     <div class="container">
-        <a href="/" class="navbar-brand">ShoppApp</a>
+        <a href="/" class="navbar-brand">E_Ticaret</a>
         <ul class="navbar-nav mr-auto">@*ml-auto sağa mr-auto sola yaslar*@
             <li class="nav-item">
                 <a href="/products" class="nav-link">Products</a>
             </li>
             @if (User.Identity.IsAuthenticated)
-            { 
+            {
                 <li class="nav-item">
                     <a href="" class="nav-link">Cart</a>
                 </li>
                 <li class="nav-item">
                     <a href="" class="nav-link">Orders</a>
                 </li>
-                <li class="nav-item">
-                    <a href="/admin/categorylist" class="nav-link">Admin-Kategoriler</a>
 
-                </li>
-                <li class="nav-item">
-                    <a asp-controller="admin" asp-action="productlist" class="nav-link">Admin-Ürünler</a>
-                </li>
-                <li class="nav-item">
-                    <a href="/admin/RolesList/" class="nav-link">Roller</a>
-                </li>
+                if (User.IsInRole("Admin"))
+                {
+                    <li class="nav-item">
+                        <a href = "/admin/categorylist" class="nav-link">Admin-Kategoriler</a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a asp-controller="admin" asp-action="productlist" class="nav-link">Admin-Ürünler</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href = "/admin/RolesList/" class="nav-link">Roller</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/UserList/" class="nav-link">Kullanıcılar</a>
+                    </li>
+                }
             }
-            
         </ul>
         <ul class="navbar-nav ml-auto">@*ml-auto sağa mr-auto sola yaslar*@
 

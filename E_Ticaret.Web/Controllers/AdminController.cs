@@ -16,8 +16,7 @@ using System.Collections.Generic;
 
 namespace E_Ticaret.Web.Controllers
 {
-    //[Authorize(Roles ="Admin")]
-    [Authorize]
+    [Authorize(Roles ="Admin")]  
     public class AdminController : Controller
     {
         private IProductService _productService;
@@ -62,6 +61,67 @@ namespace E_Ticaret.Web.Controllers
             }
             return valueToChange;
         }
+
+        #region User Methods
+        public IActionResult UserList()
+        {
+            return View(_userManager.Users);
+        }
+        [HttpGet]
+        public async Task<IActionResult> UserEdit(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                var selectedRoles = await _userManager.GetRolesAsync(user);
+                var allRoles = _roleManager.Roles.Select(i => i.Name);
+                ViewBag.Roles = allRoles;
+                return View(new UserDetailsModel()
+                {
+                    UserId = user.Id,
+                    UserName = user.UserName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    EmailConfirmed = user.EmailConfirmed,
+                    SelectedRoles = selectedRoles
+                });
+            }
+
+            return Redirect("/admin/UserList/");
+        }
+        [HttpPost]
+        public async Task<IActionResult> UserEdit(UserDetailsModel model,string[] selectedRoles)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByIdAsync(model.UserId);
+                if (user != null)
+                {
+                    user.FirstName = model.FirstName;
+                    user.LastName = model.LastName;
+                    user.UserName = model.UserName;
+                    user.Email = model.Email;
+                    user.EmailConfirmed = model.EmailConfirmed;
+
+                    var result=await _userManager.UpdateAsync(user);
+
+                    if (result.Succeeded)
+                    {
+                        var userRoles = await _userManager.GetRolesAsync(user);
+                        selectedRoles = selectedRoles ?? new string[] { };
+                        await _userManager.AddToRolesAsync(user, selectedRoles.Except(userRoles).ToArray<string>());
+                        await _userManager.RemoveFromRolesAsync(user, userRoles.Except(selectedRoles).ToArray<string>());
+
+                        return Redirect("/admin/userlist/");
+                    }
+                }
+                
+            }
+            return View(model); 
+        }
+
+        #endregion
 
         #region Role Methods
 
@@ -129,7 +189,7 @@ namespace E_Ticaret.Web.Controllers
         }
         /*list, değer ve referans tiplerden referans tiptir. Burada eğer true gelirse, item members list'ine değilse nonMembers list'ine atılır*/
         [HttpPost]
-        public async Task<IActionResult> RoleEdit(RoleEditModel model)
+        public async Task<IActionResult> EditRole(RoleEditModel model)
         {
             if (ModelState.IsValid)
             {
@@ -168,7 +228,6 @@ namespace E_Ticaret.Web.Controllers
             return Redirect("/Admin/EditRole/" + model.RoleId);
         }
         #endregion
-
 
         #region Product Methods
         public IActionResult ProductList()

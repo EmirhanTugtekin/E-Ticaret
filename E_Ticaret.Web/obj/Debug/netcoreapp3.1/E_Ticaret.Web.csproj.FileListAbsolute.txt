@@ -182,3 +182,7 @@ D:\Belgelerim\yazılım\Murat Yücedağ Eğitim\projects\ek projeler\E_Ticaret\E
 D:\Belgelerim\yazılım\Murat Yücedağ Eğitim\projects\ek projeler\E_Ticaret\E_Ticaret.Web\obj\Debug\netcoreapp3.1\Razor\Views\Admin\RolesList.cshtml.g.cs
 D:\Belgelerim\yazılım\Murat Yücedağ Eğitim\projects\ek projeler\E_Ticaret\E_Ticaret.Web\obj\Debug\netcoreapp3.1\Razor\Views\Admin\CreateRole.cshtml.g.cs
 D:\Belgelerim\yazılım\Murat Yücedağ Eğitim\projects\ek projeler\E_Ticaret\E_Ticaret.Web\obj\Debug\netcoreapp3.1\Razor\Views\Admin\EditRole.cshtml.g.cs
+D:\Belgelerim\yazılım\Murat Yücedağ Eğitim\projects\ek projeler\E_Ticaret\E_Ticaret.Web\obj\Debug\netcoreapp3.1\Razor\Views\Account\AccessDenied.cshtml.g.cs
+D:\Belgelerim\yazılım\Murat Yücedağ Eğitim\projects\ek projeler\E_Ticaret\E_Ticaret.Web\obj\Debug\netcoreapp3.1\Razor\Views\Admin\UserList.cshtml.g.cs
+D:\Belgelerim\yazılım\Murat Yücedağ Eğitim\projects\ek projeler\E_Ticaret\E_Ticaret.Web\obj\Debug\netcoreapp3.1\Razor\Views\Admin\UserEdit.cshtml.g.cs
+D:\Belgelerim\yazılım\Murat Yücedağ Eğitim\projects\ek projeler\E_Ticaret\E_Ticaret.Web\obj\Debug\netcoreapp3.1\Razor\Views\Cart\Index.cshtml.g.cs

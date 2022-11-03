@@ -20,8 +20,9 @@ namespace E_Ticaret.Business.Concrete
         {
             _productRepository.Create(entity);
             return true;
-            
+
         }
+
 
         public void Delete(Product entity)
         {

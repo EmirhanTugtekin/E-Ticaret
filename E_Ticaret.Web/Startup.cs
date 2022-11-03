@@ -73,9 +73,13 @@ namespace E_Ticaret.Web
 
             services.AddScoped<IProductRepository, EFCoreProductRepository>();
             services.AddScoped<ICategoryRepository, EFCoreCategoryRepository>();
+            services.AddScoped<ICartRepository, EFCoreCartRepository>();
 
             services.AddScoped<IProductService, ProductManager>();
             services.AddScoped<ICategoryService, CategoryManager>();
+            services.AddScoped<ICartService, CartManager>();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
